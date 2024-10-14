@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="images/kopa-kash-logo.avif" type="image/x-icon">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1A3636">
     <style>
         :root {
             --primary-color: #1A3636;
@@ -120,12 +122,91 @@
         .navbar-nav .nav-link.active {
             color: var(--accent-color) !important;
         }
+        #installBtn {
+    display: none;
+    vertical-align: middle;
+}
+
+/* Modal styles */
+.modal-content {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    padding: 2rem 2rem 1rem;
+}
+
+.modal-body {
+    padding: 1rem 2rem 2rem;
+}
+
+.modal-title {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0e0e0;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(26, 54, 54, 0.25);
+}
+
+.btn-primary {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+.modal a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.modal a:hover {
+    color: var(--accent-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 1rem;
+    }
+    
+    .modal-header, .modal-body {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
         @media (max-width: 991.98px) {
             .navbar-collapse {
                 background-color: var(--primary-color);
                 padding: 1rem;
                 border-radius: 0 0 0.5rem 0.5rem;
             }
+        }
+        #installBtn {
+            display: none;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -142,13 +223,13 @@
                         <a class="nav-link" href="#features">Features</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#download">Download</a>
+                        <a class="nav-link" href="#" id="downloadApp">Download</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#login">Login</a>
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="#register">Get Started</a>
+                        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Get Started</a>
                     </li>
                 </ul>
             </div>
@@ -159,8 +240,9 @@
         <div class="container hero-content text-center">
             <h1 class="display-4 mb-4 fw-bold">Smart Loans at Your Fingertips</h1>
             <p class="lead mb-5">Apply, manage, and repay loans with ease. Join thousands of satisfied customers today!</p>
-            <a href="#register" class="btn btn-primary btn-lg me-3" style="color: white;">Create Account</a>
-            <a href="#download" class="btn btn-outline-light btn-lg">Download App</a>
+            <a href="#register" class="btn btn-primary btn-lg me-3" style="color: white;" data-bs-toggle="modal" data-bs-target="#registerModal">Create Account</a>
+            <a href="#download" class="btn btn-outline-light btn-lg me-2">Download App</a>
+            <button id="installBtn" class="btn btn-light btn-lg" style="display: none;">Install Web App</button>
         </div>
     </header>
 
@@ -196,8 +278,8 @@
     <section class="cta-section py-5">
         <div class="container text-center">
             <h2 class="mb-4 fw-bold">Ready to Take Control of Your Finances?</h2>
-            <a href="#register" class="btn btn-dark btn-lg me-3">Create Account</a>
-            <a href="#login" class="btn btn-outline-dark btn-lg">Login</a>
+            <a href="#register" class="btn btn-dark btn-lg me-3" data-bs-toggle="modal" data-bs-target="#registerModal">Create Account</a>
+            <a href="#login" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-dark btn-lg">Login</a>
         </div>
     </section>
 
@@ -211,7 +293,7 @@
                         <a href="#" class="me-3 mb-3">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store" height="40">
                         </a>
-                        <a href="#">
+                        <a href="#" >
                             <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" height="40">
                         </a>
                     </div>
@@ -258,6 +340,68 @@
         <div class="container d-flex justify-content-between align-items-center">
             <p class="mb-0">Experience Kopa Kash as a web app!</p>
             <button id="install-app" class="btn btn-light btn-sm">Install</button>
+        </div>
+    </div>
+
+  <!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="loginPhone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="loginPhone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="submit" form="loginForm" class="btn btn-primary" style="width: 200px; color: white;">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label for="registerName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="registerName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPhone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="registerPhone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerIdNumber" class="form-label">ID Number</label>
+                            <input type="text" class="form-control" id="registerIdNumber" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" form="registerForm" class="btn btn-primary" style="width: 200px; color: white;">Register</button>
+                </div>
+            </div>
         </div>
     </div>
 

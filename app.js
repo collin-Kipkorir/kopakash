@@ -72,15 +72,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
+            const phone = document.getElementById('loginPhone').value;
             const password = document.getElementById('loginPassword').value;
             // Here you would typically send this data to your server
-            console.log('Login attempt:', email, password);
-            // For demo purposes, we'll just show an alert
+            console.log('Login attempt:', phone, password);
+            // For demo purposes, we'll just close the modal and show an alert
+            var modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            modal.hide();
             alert('Login successful!');
-            // Close the modal (assuming you're using Bootstrap modals)
-            const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-            if (modal) modal.hide();
         });
     }
 
@@ -90,17 +89,28 @@ document.addEventListener('DOMContentLoaded', function() {
         registerForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('registerName').value;
+            const phone = document.getElementById('registerPhone').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
             // Here you would typically send this data to your server
-            console.log('Registration attempt:', name, email, password);
-            // For demo purposes, we'll just show an alert
-            alert('Registration successful! Please check your email to verify your account.');
-            // Close the modal (assuming you're using Bootstrap modals)
-            const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
-            if (modal) modal.hide();
+            console.log('Registration attempt:', name, phone, email, password);
+            // For demo purposes, we'll just close the modal and show an alert
+            var modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+            modal.hide();
+            alert('Registration successful! Please check your phone for a verification code.');
         });
     }
+
+    // Phone number validation
+    const phoneInputs = document.querySelectorAll('input[type="tel"]');
+    phoneInputs.forEach(input => {
+        input.addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (this.value.length > 10) {
+                this.value = this.value.slice(0, 10);
+            }
+        });
+    });
 
     // Loan application form handling
     const loanForm = document.getElementById('loanApplicationForm');
@@ -190,5 +200,81 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.getElementById('calcResult').textContent = `Estimated monthly payment: $${monthlyPayment.toFixed(2)}`;
         });
+    }
+
+    // PWA functionality
+    let deferredPrompt;
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then((registration) => {
+                console.log('ServiceWorker registration successful');
+            }, (err) => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallPromotion();
+    });
+
+    function showInstallPromotion() {
+        const installBtn = document.getElementById('installBtn');
+        installBtn.style.display = 'inline-block';
+    }
+
+    document.getElementById('installBtn').addEventListener('click', async () => {
+        if (deferredPrompt !== null) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+            document.getElementById('installBtn').style.display = 'none';
+        }
+    });
+
+    window.addEventListener('appinstalled', (evt) => {
+        console.log('App was installed.');
+        document.getElementById('installBtn').style.display = 'none';
+    });
+
+    // Function to check if user is logged in
+    function isUserLoggedIn() {
+        // Implement your login check logic here
+        // For example, check if a token exists in localStorage
+        return localStorage.getItem('userToken') !== null;
+    }
+
+    // Redirect to login/register page if not logged in
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!isUserLoggedIn()) {
+            // You might want to change this to your actual login page
+            window.location.href = '#login';
+        }
+    });
+
+    let deferredPrompt;
+
+    document.getElementById('downloadApp').addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('App installed');
+            }
+            deferredPrompt = null;
+        }
+    });
+
+    // Redirect to login page if app is launched from home screen
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        window.location.href = '/login.html';
     }
 });
