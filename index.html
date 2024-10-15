@@ -184,7 +184,25 @@
 .modal a:hover {
     color: var(--accent-color);
 }
+.button-container {
+    gap: 10px;
+}
 
+.button-container .btn {
+    flex: 0 0 auto;
+    min-width: 150px; /* Adjust this value as needed */
+}
+
+@media (max-width: 575.98px) {
+    .button-container {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .button-container .btn {
+        margin-right: 0 !important;
+    }
+}
 /* Responsive adjustments */
 @media (max-width: 576px) {
     .modal-dialog {
@@ -207,6 +225,25 @@
         #installBtn {
             display: none;
             vertical-align: middle;
+        }
+        .button-container {
+            gap: 10px;
+        }
+
+        .button-container .btn {
+            flex: 0 0 auto;
+            min-width: 150px; /* Adjust this value as needed */
+        }
+
+        @media (max-width: 575.98px) {
+            .button-container {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .button-container .btn {
+                margin-right: 0 !important;
+            }
         }
     </style>
 </head>
@@ -277,8 +314,10 @@
     <section class="cta-section py-5">
         <div class="container text-center">
             <h2 class="mb-4 fw-bold">Ready to Take Control of Your Finances?</h2>
-            <a href="#register" class="btn btn-dark btn-lg me-3" data-bs-toggle="modal" data-bs-target="#registerModal">Create Account</a>
-            <a href="#login" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-dark btn-lg">Login</a>
+            <div class="d-flex flex-wrap justify-content-center button-container">
+                <a href="#register" class="btn btn-dark btn-lg me-3 mb-3" data-bs-toggle="modal" data-bs-target="#registerModal">Create Account</a>
+                <a href="#login" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-outline-dark btn-lg mb-3">Login</a>
+            </div>
         </div>
     </section>
 
