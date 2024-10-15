@@ -1,3 +1,11 @@
+// Add this at the beginning of your app.js
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    // App is running in standalone mode (installed as PWA)
+    if (window.location.pathname !== '/pwa-login.html') {
+        window.location.href = '/pwa-login.html';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.querySelector('.navbar');
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
@@ -6,11 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling for navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
+            if (targetId && targetId !== '#') {  // Add this check
+                e.preventDefault();
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
             }
         });
     });
@@ -130,14 +140,57 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Web App Installation
-    let deferredPrompt;
+
     const webAppBanner = document.getElementById('web-app-banner');
     const installButton = document.getElementById('install-app');
 
+    let deferredPrompt;
+
+    function handleDownloadClick(e) {
+        e.preventDefault();
+        console.log('Download App clicked');
+        if (deferredPrompt) {
+            console.log('deferredPrompt available, showing prompt...');
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                console.log('User choice result:', choiceResult.outcome);
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null;
+            });
+        } else {
+            console.log('deferredPrompt not available');
+            alert('App installation is not available at the moment. Please try again later or check if the app is already installed.');
+        }
+    }
+
+    // Add click event listeners to all download elements
+    const downloadElements = [
+        document.getElementById('downloadAppLink'),
+        document.getElementById('downloadAppButton'),
+        document.getElementById('appStoreDownload'),
+        document.getElementById('playStoreDownload')
+    ];
+
+    downloadElements.forEach(element => {
+        if (element) {
+            element.addEventListener('click', handleDownloadClick);
+        }
+    });
+
     window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('beforeinstallprompt event fired');
         e.preventDefault();
         deferredPrompt = e;
-        webAppBanner.style.display = 'block';
+        // Show all download elements
+        downloadElements.forEach(element => {
+            if (element) {
+                element.style.display = 'inline-block';
+            }
+        });
     });
 
     installButton.addEventListener('click', async () => {
@@ -203,46 +256,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // PWA functionality
-    let deferredPrompt;
-
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js').then((registration) => {
-                console.log('ServiceWorker registration successful');
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
             }, (err) => {
                 console.log('ServiceWorker registration failed: ', err);
             });
         });
     }
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        showInstallPromotion();
-    });
-
-    function showInstallPromotion() {
-        const installBtn = document.getElementById('installBtn');
-        installBtn.style.display = 'inline-block';
-    }
-
-    document.getElementById('installBtn').addEventListener('click', async () => {
-        if (deferredPrompt !== null) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                console.log('User accepted the A2HS prompt');
-            } else {
-                console.log('User dismissed the A2HS prompt');
-            }
-            deferredPrompt = null;
-            document.getElementById('installBtn').style.display = 'none';
+    // Add this for testing
+    window.addEventListener('load', () => {
+        console.log('Page loaded. Checking PWA installability...');
+        if ('serviceWorker' in navigator) {
+            console.log('Service Worker is supported');
+        } else {
+            console.log('Service Worker is not supported');
         }
     });
 
     window.addEventListener('appinstalled', (evt) => {
-        console.log('App was installed.');
-        document.getElementById('installBtn').style.display = 'none';
+        console.log('App was installed successfully');
     });
 
     // Function to check if user is logged in
@@ -260,21 +295,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    let deferredPrompt;
+    // Open login modal if app is launched from home screen
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        });
+    }
 
-    document.getElementById('downloadApp').addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                console.log('App installed');
-            }
-            deferredPrompt = null;
+    window.addEventListener('load', () => {
+        console.log('Window loaded. Checking PWA installability...');
+        if ('serviceWorker' in navigator) {
+            console.log('Service Worker is supported');
+        } else {
+            console.log('Service Worker is not supported');
         }
     });
-
-    // Redirect to login page if app is launched from home screen
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-        window.location.href = '/login.html';
-    }
 });

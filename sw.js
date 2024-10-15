@@ -3,10 +3,13 @@ self.addEventListener('install', (event) => {
     caches.open('v1').then((cache) => {
       return cache.addAll([
         '/',
-        '/index.html',
+        '/pwa-login.html',
         '/styles.css',
         '/app.js',
-        // Add other assets you want to cache
+        '/pwa-app.js',
+        '/manifest.json',
+        '/images/icon-192x192.png',
+        '/images/icon-512x512.png'
       ]);
     })
   );
