@@ -281,6 +281,20 @@
             opacity: 1;
             visibility: visible;
         }
+        .error-message {
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+        }
+
+        .form-control.is-invalid,
+        .form-select.is-invalid {
+            border-color: #dc3545;
+            padding-right: calc(1.5em + 0.75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
     </style>
 </head>
 <body>
@@ -439,63 +453,107 @@
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loadingScreen');
             const mainContent = document.getElementById('mainContent');
+            const form = document.getElementById('loanApplicationForm');
+            const steps = Array.from(document.querySelectorAll('.step-content'));
+            const progressBar = document.querySelector('.progress-bar');
+            const stepIndicators = document.querySelectorAll('.step');
+            let currentStep = 0;
+
+            function showStep(stepIndex) {
+                steps.forEach((step, index) => {
+                    step.style.display = index === stepIndex ? 'block' : 'none';
+                });
+                stepIndicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index <= stepIndex);
+                });
+                progressBar.style.width = `${((stepIndex + 1) / steps.length) * 100}%`;
+            }
+
+            function validateStep(stepIndex) {
+                const currentStep = steps[stepIndex];
+                const inputs = currentStep.querySelectorAll('input[required], select[required]');
+                let isValid = true;
+
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        showError(input, 'This field is required');
+                    } else {
+                        clearError(input);
+                    }
+                });
+
+                return isValid;
+            }
+
+            function showError(input, message) {
+                const formGroup = input.closest('.mb-3');
+                let errorElement = formGroup.querySelector('.error-message');
+                
+                if (!errorElement) {
+                    errorElement = document.createElement('div');
+                    errorElement.className = 'error-message text-danger mt-1';
+                    formGroup.appendChild(errorElement);
+                }
+                
+                errorElement.textContent = message;
+                input.classList.add('is-invalid');
+            }
+
+            function clearError(input) {
+                const formGroup = input.closest('.mb-3');
+                const errorElement = formGroup.querySelector('.error-message');
+                
+                if (errorElement) {
+                    errorElement.remove();
+                }
+                
+                input.classList.remove('is-invalid');
+            }
+
+            function nextStep() {
+                if (currentStep < steps.length - 1) {
+                    if (validateStep(currentStep)) {
+                        currentStep++;
+                        showStep(currentStep);
+                    }
+                }
+            }
+
+            function prevStep() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            }
+
+            // Add event listeners to all next buttons
+            document.querySelectorAll('.btn-next').forEach(button => {
+                button.addEventListener('click', nextStep);
+            });
+
+            // Add event listeners to all previous buttons
+            document.querySelectorAll('.btn-prev').forEach(button => {
+                button.addEventListener('click', prevStep);
+            });
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (validateStep(currentStep)) {
+                    // Handle form submission
+                    console.log('Form submitted');
+                    alert('Loan application submitted successfully!');
+                }
+            });
+
+            // Initialize the form
+            showStep(currentStep);
 
             // Simulate data loading
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 mainContent.classList.add('visible');
-
-                console.log('DOM loaded');
-                const form = document.getElementById('loanApplicationForm');
-                const steps = Array.from(document.querySelectorAll('.step-content'));
-                const progressBar = document.querySelector('.progress-bar');
-                const stepIndicators = document.querySelectorAll('.step');
-                let currentStep = 0;
-
-                function showStep(stepIndex) {
-                    steps.forEach((step, index) => {
-                        step.style.display = index === stepIndex ? 'block' : 'none';
-                    });
-                    stepIndicators.forEach((indicator, index) => {
-                        indicator.classList.toggle('active', index <= stepIndex);
-                    });
-                    progressBar.style.width = `${((stepIndex + 1) / steps.length) * 100}%`;
-                }
-
-                function nextStep() {
-                    if (currentStep < steps.length - 1) {
-                        currentStep++;
-                        showStep(currentStep);
-                    }
-                }
-
-                function prevStep() {
-                    if (currentStep > 0) {
-                        currentStep--;
-                        showStep(currentStep);
-                    }
-                }
-
-                // Add event listeners to all next buttons
-                document.querySelectorAll('.btn-next').forEach(button => {
-                    button.addEventListener('click', nextStep);
-                });
-
-                // Add event listeners to all previous buttons
-                document.querySelectorAll('.btn-prev').forEach(button => {
-                    button.addEventListener('click', prevStep);
-                });
-
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    // Handle form submission
-                    console.log('Form submitted');
-                    alert('Loan application submitted successfully!');
-                });
-
-                // Initialize the form
-                showStep(currentStep);
-            }, 2000); // Simulating 2 seconds of loading time
+            }, 2000);
 
             const backButton = document.querySelector('.navbar-brand');
             backButton.addEventListener('click', function(e) {

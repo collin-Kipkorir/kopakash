@@ -47,6 +47,14 @@
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
+        .card-body-top {
+            background: linear-gradient(145deg, #f0f0f0, #ffffff);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
+            display: flex;
+        }
         .quick-action {
             text-align: center;
             padding: 25px;
@@ -250,7 +258,7 @@
         <div class="container mt-4">
             <h3 class="mb-4">Welcome, [User Name]</h3>
             
-            <div class="card mb-4">
+            <div class="card-body-top mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Current Loan Status</h5>
                     <div class="row g-4">
