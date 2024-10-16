@@ -230,6 +230,9 @@
             .card-body-top {
                 flex-direction: column;
             }
+            .row {
+                text-align: start;
+            }
             .quick-action {
                 margin-bottom: 1rem;
             }
@@ -365,7 +368,10 @@
                 padding-right: 10px;
             }
             .card-body-top {
-                padding: 0.8rem;
+                padding: 5px;
+            }
+            .row {
+                text-align: start;
             }
         }
 
@@ -375,7 +381,10 @@
                 font-size: 0.85rem;
             }
             .card-body-top {
-                text-align: center;
+                text-align: start;
+            }
+            .row {
+                text-align: start;
             }
         }
         
@@ -388,6 +397,67 @@
         }
         .loader-inner {
             border-width: 4px;
+        }
+    }
+
+    .loan-info-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+    }
+
+    .loan-info-item p {
+        margin-bottom: 0.25rem;
+    }
+
+    .loan-info-value {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    @media (max-width: 767px) {
+        .loan-info-item {
+            align-items: center;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .progress-container {
+        position: relative;
+        margin-top: 1rem;
+    }
+
+    .progress {
+        height: 12px;
+        background-color: #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        background: linear-gradient(to right, var(--accent-color), #FFD700);
+        transition: width 1.5s ease-in-out;
+    }
+
+    .progress-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--dark-color);
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+    }
+
+    @media (max-width: 576px) {
+        .progress {
+            height: 10px;
+        }
+        .progress-label {
+            font-size: 0.7rem;
         }
     }
     </style>
@@ -432,20 +502,29 @@
                     <h5 class="card-title">Current Loan Status</h5>
                     <div class="row g-4">
                         <div class="col-md-4">
-                            <p class="mb-1 text-muted">Loan Amount</p>
-                            <h3>$5,000</h3>
+                            <div class="loan-info-item">
+                                <p class="mb-1 text-muted">Loan Amount</p>
+                                <h3 class="loan-info-value">$5,000</h3>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <p class="mb-1 text-muted">Next Payment Due</p>
-                            <h3>July 15, 2023</h3>
+                            <div class="loan-info-item">
+                                <p class="mb-1 text-muted">Next Payment Due</p>
+                                <h3 class="loan-info-value">July 15, 2023</h3>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <p class="mb-1 text-muted">Remaining Balance</p>
-                            <h3>$3,500</h3>
+                            <div class="loan-info-item">
+                                <p class="mb-1 text-muted">Remaining Balance</p>
+                                <h3 class="loan-info-value">$3,500</h3>
+                            </div>
                         </div>
                     </div>
-                    <div class="progress mt-4">
-                        <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30% Paid</div>
+                    <div class="progress-container mt-4">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="progress-label">30% Paid</div>
                     </div>
                 </div>
             </div>
