@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopa Kash - Loan Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1A3636;
+            --secondary-color: #40534C;
+            --accent-color: #F0A500;
+            --light-color: #F8F9FA;
+            --dark-color: #212529;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            background-color: rgba(26, 54, 54, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .navbar-brand .fa-arrow-left {
+                font-size: 1.2em; /* Slightly larger icon on mobile */
+                visibility: hidden;
+            }
+        .container {
+            max-width: 800px;
+        }
+        .card {
+            border: none;
+            border-radius: 7px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .card-body {
+            padding: 40px;
+        }
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #d89400;
+            border-color: #d89400;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-secondary {
+            background-color: #e9ecef;
+            border-color: #e9ecef;
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #dee2e6;
+            border-color: #dee2e6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .progress {
+            height: px;
+            margin-bottom: 30px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background-color: var(--accent-color);
+            transition: width 0.5s ease;
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e9ecef;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .step {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--dark-color);
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        .step.active {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(240, 165, 0, 0.25);
+        }
+        .step-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1, h3 {
+            color: var(--primary-color);
+        }
+        #applicationSummary {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .btn-nav {
+            font-weight: 600;
+            padding: 12px 18px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-size: 12px; /* Default font size */
+        }
+
+        /* Media query for mobile devices */
+        @media (max-width: 768px) {
+            .btn-nav {
+                font-size: 11px; /* Smaller font size for mobile */
+                padding: 5px 10px; /* Optionally reduce padding for mobile */
+            }
+            
+            .btn-nav i {
+                font-size: 12px; /* Reduce icon size if needed */
+            }
+            .navbar-brand .fa-arrow-left {
+                font-size: 1.2em; /* Slightly larger icon on mobile */
+                visibility: visible;
+                margin-right: 10px;
+                columns: orange;
+            }
+        }
+
+        .btn-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-nav:hover::before {
+            width: 100%;
+        }
+
+        .btn-next {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        .btn-next:hover {
+            background-color: #d89400;
+            border-color: #d89400;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(240, 165, 0, 0.2);
+        }
+
+        .btn-prev {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        .btn-prev:hover {
+            background-color: #132929;
+            border-color: #132929;
+            color: var(--light-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(26, 54, 54, 0.2);
+        }
+
+        .btn-nav i {
+            margin-right: 8px;
+            font-size: 12px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* Add these new styles for the loading screen */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #c3cfe2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--accent-color);
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        .loader-inner {
+            width: 100%;
+            height: 100%;
+            border: 5px solid var(--light-color);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: rotation 0.5s linear infinite reverse;
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #mainContent {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        #mainContent.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingScreen">
+        <div class="loader">
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+
+    <div id="mainContent">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="pwa-home.html">
+                    <i class="fas fa-arrow-left me-2"></i> <!-- Back arrow icon -->
+                    Kopa Kash
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="pwa-home.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-user"></i> Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container my-5">
+            <h1 class="text-center mb-5">Loan Application</h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="step-indicator">
+                        <div class="step active">1</div>
+                        <div class="step">2</div>
+                        <div class="step">3</div>
+                        <div class="step">4</div>
+                    </div>
+                    <form id="loanApplicationForm">
+                        <!-- Step 1: Personal Information -->
+                        <div class="step-content" id="step1" style="display: block;">
+                            <h3 class="mb-4">Personal Information</h3>
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                            </div>
+                            <div class="btn-container">
+                                <div></div> <!-- This empty div helps maintain the layout -->
+                                <button type="button" class="btn btn-nav btn-next" id="nextStep">
+                                    Next <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Employment Information -->
+                        <div class="step-content" id="step2">
+                            <h3 class="mb-4">Employment Information</h3>
+                            <div class="mb-3">
+                                <label for="employer" class="form-label">Current Employer</label>
+                                <input type="text" class="form-control" id="employer" name="employer" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="jobTitle" class="form-label">Job Title</label>
+                                <input type="text" class="form-control" id="jobTitle" name="jobTitle" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="monthlyIncome" class="form-label">Monthly Income</label>
+                                <input type="number" class="form-control" id="monthlyIncome" name="monthlyIncome" required>
+                            </div>
+                            <div class="btn-container">
+                                <button type="button" class="btn btn-nav btn-prev" id="prevStep">
+                                    <i class="fas fa-chevron-left"></i> Previous
+                                </button>
+                                <button type="button" class="btn btn-nav btn-next" id="nextStep">
+                                    Next <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Loan Details -->
+                        <div class="step-content" id="step3">
+                            <h3 class="mb-4">Loan Details</h3>
+                            <div class="mb-3">
+                                <label for="loanAmount" class="form-label">Desired Loan Amount</label>
+                                <input type="number" class="form-control" id="loanAmount" name="loanAmount" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="loanPurpose" class="form-label">Loan Purpose</label>
+                                <select class="form-select" id="loanPurpose" name="loanPurpose" required>
+                                    <option value="">Select purpose</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="business">Business</option>
+                                    <option value="education">Education</option>
+                                    <option value="debt_consolidation">Debt Consolidation</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="loanTerm" class="form-label">Loan Term (months)</label>
+                                <input type="number" class="form-control" id="loanTerm" name="loanTerm" required>
+                            </div>
+                            <div class="btn-container">
+                                <button type="button" class="btn btn-nav btn-prev" id="prevStep">
+                                    <i class="fas fa-chevron-left"></i> Previous
+                                </button>
+                                <button type="button" class="btn btn-nav btn-next" id="nextStep">
+                                    Next <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Review and Submit -->
+                        <div class="step-content" id="step4">
+                            <h3 class="mb-4">Review and Submit</h3>
+                            <div id="applicationSummary" class="mb-4"></div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="termsAgreement" required>
+                                <label class="form-check-label" for="termsAgreement">
+                                    I agree to the terms and conditions
+                                </label>
+                            </div>
+                            <div class="btn-container">
+                                <button type="button" class="btn btn-nav btn-prev" id="prevStep">
+                                    <i class="fas fa-chevron-left"></i> Previous
+                                </button>
+                                <button type="submit" class="btn btn-nav btn-next">
+                                    Submit Application <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const mainContent = document.getElementById('mainContent');
+
+            // Simulate data loading
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                mainContent.classList.add('visible');
+
+                console.log('DOM loaded');
+                const form = document.getElementById('loanApplicationForm');
+                const steps = Array.from(document.querySelectorAll('.step-content'));
+                const progressBar = document.querySelector('.progress-bar');
+                const stepIndicators = document.querySelectorAll('.step');
+                let currentStep = 0;
+
+                function showStep(stepIndex) {
+                    steps.forEach((step, index) => {
+                        step.style.display = index === stepIndex ? 'block' : 'none';
+                    });
+                    stepIndicators.forEach((indicator, index) => {
+                        indicator.classList.toggle('active', index <= stepIndex);
+                    });
+                    progressBar.style.width = `${((stepIndex + 1) / steps.length) * 100}%`;
+                }
+
+                function nextStep() {
+                    if (currentStep < steps.length - 1) {
+                        currentStep++;
+                        showStep(currentStep);
+                    }
+                }
+
+                function prevStep() {
+                    if (currentStep > 0) {
+                        currentStep--;
+                        showStep(currentStep);
+                    }
+                }
+
+                // Add event listeners to all next buttons
+                document.querySelectorAll('.btn-next').forEach(button => {
+                    button.addEventListener('click', nextStep);
+                });
+
+                // Add event listeners to all previous buttons
+                document.querySelectorAll('.btn-prev').forEach(button => {
+                    button.addEventListener('click', prevStep);
+                });
+
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // Handle form submission
+                    console.log('Form submitted');
+                    alert('Loan application submitted successfully!');
+                });
+
+                // Initialize the form
+                showStep(currentStep);
+            }, 2000); // Simulating 2 seconds of loading time
+
+            const backButton = document.querySelector('.navbar-brand');
+            backButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'pwa-home.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

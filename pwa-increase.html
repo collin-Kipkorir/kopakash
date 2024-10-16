@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopa Kash - Increase Credit Limit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1A3636;
+            --secondary-color: #40534C;
+            --accent-color: #F0A500;
+            --light-color: #F8F9FA;
+            --dark-color: #212529;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            background-color: rgba(26, 54, 54, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .container {
+            max-width: 800px;
+        }
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        }
+        .card-body {
+            padding: 3rem;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, var(--accent-color), #FFD700);
+            border: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .form-label {
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(240, 165, 0, 0.25);
+        }
+        .current-limit {
+            background: linear-gradient(145deg, #f0f0f0, #ffffff);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
+        }
+        .current-limit h5 {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .current-limit h2 {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        h1 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            margin-top: 1rem;
+        }
+        .progress-bar {
+            background: linear-gradient(to right, var(--accent-color), #FFD700);
+            border-radius: 5px;
+        }
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        #loadingOverlay.fade-out {
+            opacity: 0;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--accent-color);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #mainContent {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        #mainContent.fade-in {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="mainContent">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">Kopa Kash</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-user"></i> Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container my-5">
+            <h1 class="text-center">Increase Credit Limit</h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="current-limit">
+                        <h5>Current Credit Limit</h5>
+                        <h2>$5,000</h2>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="text-muted mt-2 d-block">75% of your credit limit used</small>
+                    </div>
+                    <form id="increaseLimitForm">
+                        <div class="mb-4">
+                            <label for="newLimit" class="form-label">Requested New Limit</label>
+                            <input type="number" class="form-control" id="newLimit" name="newLimit" required min="5000" step="100">
+                        </div>
+                        <div class="mb-4">
+                            <label for="reason" class="form-label">Reason for Increase</label>
+                            <select class="form-select" id="reason" name="reason" required>
+                                <option value="">Select a reason</option>
+                                <option value="income_increase">Income Increase</option>
+                                <option value="large_purchase">Planning a Large Purchase</option>
+                                <option value="business_expenses">Business Expenses</option>
+                                <option value="debt_consolidation">Debt Consolidation</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="additionalInfo" class="form-label">Additional Information (Optional)</label>
+                            <textarea class="form-control" id="additionalInfo" name="additionalInfo" rows="3"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">Submit Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const increaseLimitBtn = document.getElementById('increaseLimitBtn');
+            
+            if (increaseLimitBtn) {
+                increaseLimitBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Create and show loading overlay
+                    const loadingOverlay = document.createElement('div');
+                    loadingOverlay.id = 'loadingOverlay';
+                    loadingOverlay.innerHTML = '<div class="spinner"></div>';
+                    document.body.appendChild(loadingOverlay);
+
+                    // Navigate to increase limit page
+                    setTimeout(() => {
+                        window.location.href = 'pwa-increase.html';
+                    }, 500); // Short delay for the overlay to be visible
+                });
+            }
+
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const mainContent = document.getElementById('mainContent');
+
+            // Simulate loading time (you can remove this in production)
+            setTimeout(() => {
+                loadingOverlay.classList.add('fade-out');
+                mainContent.classList.add('fade-in');
+
+                // Remove the overlay after the animation
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                }, 500);
+            }, 1000); // Simulated 1 second loading time
+
+            const form = document.getElementById('increaseLimitForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Your credit limit increase request has been submitted. We will review your application and get back to you soon.');
+            });
+        });
+    </script>
+</body>
+</html>

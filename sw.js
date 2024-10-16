@@ -3,18 +3,16 @@ self.addEventListener('install', (event) => {
     caches.open('v1').then((cache) => {
       return cache.addAll([
         '/',
-        '/index.html',
         '/pwa-login.html',
+        '/pwa-home.html',
+        '/loan-application.html',
+        '/pwa-increase.html',
         '/styles.css',
-        '/app.js',
         '/pwa-app.js',
         '/manifest.json',
         '/images/icon-192x192.png',
         '/images/icon-512x512.png'
-      ]).catch(error => {
-        console.error('Cache addAll error:', error);
-        return Promise.reject(error);
-      });
+      ]);
     })
   );
 });

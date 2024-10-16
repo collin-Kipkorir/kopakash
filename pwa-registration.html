@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopa Kash - Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="loading-screen.css">
+    <style>
+        :root {
+            --primary-color: #1A3636;
+            --secondary-color: #40534C;
+            --accent-color: #F0A500;
+            --light-color: #F8F9FA;
+            --dark-color: #212529;
+        }
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Roboto', sans-serif;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .card-body {
+            padding: 3rem;
+        }
+        .form-control {
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+        }
+        .btn-primary {
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            background-color: #1A3636;
+            border-color: #1A3636;
+        }
+        .btn-primary:hover {
+            background-color: #152a2a;
+            border-color: #152a2a;
+        }
+        .logo {
+            max-width: 120px;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        .input-group-text {
+            background-color: transparent;
+            border-right: none;
+        }
+        .form-control:not(:last-child) {
+            border-left: none;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #ced4da;
+        }
+        .progress {
+            height: 5px;
+        }
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #c3cfe2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        #loadingScreen.fade-out {
+            opacity: 0;
+        }
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--accent-color);
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            margin-bottom: 10px;
+        }
+        .loader-inner {
+            width: 100%;
+            height: 100%;
+            border: 5px solid var(--light-color);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: rotation 0.5s linear infinite reverse;
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #mainContent {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        #mainContent.visible {
+            opacity: 1;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 30px;
+        }
+        .back-button {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            font-size: 1.5rem;
+            color: #1A3636;
+            text-decoration: none;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            color: #152a2a;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
+    <a href="pwa-login.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <div id="registrationContent">
+        <div class="container">
+            <div class="row justify-content-center align-items-center min-vh-100">
+                <div class="col-md-6 col-lg-5">
+                    <div class="text-center mb-4">
+                        <img src="images/icon-192x192.png" alt="Kopa Kash Logo" class="logo">
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="text-center mb-4">Create Account</h2>
+                            <form id="pwaRegistrationForm">
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        <input type="text" class="form-control" id="pwaRegName" placeholder="Full Name" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                        <input type="tel" class="form-control" id="pwaRegPhone" placeholder="Phone Number" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                        <input type="email" class="form-control" id="pwaRegEmail" placeholder="Email" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                        <input type="text" class="form-control" id="pwaRegIdNumber" placeholder="ID Number" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                        <input type="date" class="form-control" id="pwaRegDob" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                        <input type="password" class="form-control" id="pwaRegPassword" placeholder="Password" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="progress">
+                                        <div id="passwordStrength" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="pwaRegTerms" required>
+                                    <label class="form-check-label" for="pwaRegTerms">I agree to the <a href="#">Terms and Conditions</a></label>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 mb-3">Register</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <p class="text-muted">Already have an account? <a href="pwa-login.html">Log in</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="pwa-app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const registrationContent = document.getElementById('registrationContent');
+
+            // Simulate initial loading
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                registrationContent.style.display = 'block';
+            }, 1500); // Adjust timing as needed
+        });
+
+        // Password strength meter
+        document.getElementById('pwaRegPassword').addEventListener('input', function() {
+            const password = this.value;
+            const strength = calculatePasswordStrength(password);
+            const progressBar = document.getElementById('passwordStrength');
+            progressBar.style.width = strength + '%';
+            progressBar.setAttribute('aria-valuenow', strength);
+            if (strength < 33) {
+                progressBar.className = 'progress-bar bg-danger';
+            } else if (strength < 66) {
+                progressBar.className = 'progress-bar bg-warning';
+            } else {
+                progressBar.className = 'progress-bar bg-success';
+            }
+        });
+
+        function calculatePasswordStrength(password) {
+            // Implement your password strength logic here
+            // This is a simple example and should be more comprehensive in a real application
+            let strength = 0;
+            if (password.length > 6) strength += 25;
+            if (password.match(/[a-z]+/)) strength += 25;
+            if (password.match(/[A-Z]+/)) strength += 25;
+            if (password.match(/[0-9]+/)) strength += 25;
+            return strength;
+        }
+    </script>
+</body>
+</html>
