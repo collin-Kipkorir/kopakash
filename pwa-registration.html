@@ -17,31 +17,45 @@
             --dark-color: #212529;
         }
         body {
-            background-color: #f8f9fa;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .card {
             border: none;
-            border-radius: 15px;
+            border-radius: 7px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
         .card-body {
-            padding: 3rem;
+            padding: 40px;
         }
-        .form-control {
+        .form-control, .form-select {
             border-radius: 10px;
-            padding: 0.75rem 1rem;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(240, 165, 0, 0.25);
         }
         .btn-primary {
-            border-radius: 10px;
-            padding: 0.75rem 1rem;
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--primary-color);
             font-weight: 600;
-            background-color: #1A3636;
-            border-color: #1A3636;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
         .btn-primary:hover {
-            background-color: #152a2a;
-            border-color: #152a2a;
+            background-color: #d89400;
+            border-color: #d89400;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .logo {
             max-width: 120px;
@@ -56,10 +70,6 @@
         .form-control:not(:last-child) {
             border-left: none;
         }
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #ced4da;
-        }
         .progress {
             height: 5px;
         }
@@ -69,16 +79,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #c3cfe2;
+            background: #c3cfe2;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-        }
-        
-        #loadingScreen.fade-out {
-            opacity: 0;
         }
         .loader {
             width: 60px;
@@ -89,7 +94,6 @@
             display: inline-block;
             box-sizing: border-box;
             animation: rotation 1s linear infinite;
-            margin-bottom: 10px;
         }
         .loader-inner {
             width: 100%;
@@ -103,31 +107,21 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        @keyframes rotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes rotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        #mainContent {
+        #registrationContent {
             opacity: 0;
-            transition: opacity 0.5s ease-in;
+            visibility: hidden;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
         }
-        #mainContent.visible {
+        #registrationContent.visible {
             opacity: 1;
-        }
-        .logo {
-            max-width: 120px;
-            margin-bottom: 30px;
+            visibility: visible;
         }
         .back-button {
             position: fixed;
             top: 16px;
             left: 16px;
             font-size: 1.5rem;
-            color: #1A3636;
+            color: var(--primary-color);
             text-decoration: none;
             z-index: 1000;
             background-color: rgba(255, 255, 255, 0.8);
@@ -142,18 +136,28 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        /* Responsive styles for smaller screens */
-        @media (max-width: 768px) {
+        /* Enhanced responsive styles */
+        @media (max-width: 992px) {
+            .container {
+                max-width: 95%;
+            }
             .card-body {
-                padding: 2rem;
+                padding: 30px;
             }
-            .logo {
-                max-width: 100px;
-                margin-bottom: 1.5rem;
-                margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
             }
+            .card-body {
+                padding: 20px;
+            }
+            h2 { font-size: 1.6rem; }
             .form-control, .btn-primary {
                 padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
             }
             .back-button {
                 top: 10px;
@@ -161,20 +165,21 @@
                 font-size: 1.2rem;
                 padding: 8px;
             }
+            .logo {
+                max-width: 100px;
+                margin-bottom: 1.5rem;
+                margin-top: 1.5rem;
+            }
         }
 
         @media (max-width: 576px) {
             .card-body {
-                padding: 5px;
+                padding: 15px;
             }
-            .logo {
-                max-width: 80px;
-                margin-bottom: 1rem;
-                margin-top: 1rem;
-            }
+            h2 { font-size: 1.4rem; }
             .form-control, .btn-primary {
                 padding: 0.5rem 0.7rem;
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
             .back-button {
                 top: 8px;
@@ -182,21 +187,48 @@
                 font-size: 1rem;
                 padding: 6px;
             }
+            .logo {
+                max-width: 80px;
+                margin-bottom: 1rem;
+                margin-top: 1rem;
+            }
             .loader {
                 width: 40px;
                 height: 40px;
+                border-width: 4px;
+            }
+            .loader-inner {
+                border-width: 4px;
             }
         }
 
         @media (max-width: 320px) {
             .card-body {
-                padding: 5px;
+                padding: 10px;
+            }
+            h2 { font-size: 1.2rem; }
+            .form-control, .btn-primary {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.8rem;
             }
             .logo {
                 max-width: 60px;
             }
-            .form-control, .btn-primary {
-                padding: 0.4rem 0.6rem;
+        }
+
+        /* Improve touch targets for mobile */
+        @media (max-width: 768px) {
+            .form-control, .form-select, .btn {
+                min-height: 35px;
+            }
+        }
+
+        /* Improve readability on small screens */
+        @media (max-width: 576px) {
+            body {
+                font-size: 0.85rem;
+            }
+            .form-label {
                 font-size: 0.8rem;
             }
         }
@@ -204,7 +236,9 @@
 </head>
 <body>
     <div id="loadingScreen">
-        <div class="loader"></div>
+        <div class="loader">
+            <div class="loader-inner"></div>
+        </div>
     </div>
 
     <a href="pwa-login.html" class="back-button">
@@ -289,36 +323,36 @@
             // Simulate initial loading
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
-                registrationContent.style.display = 'block';
-            }, 1500); // Adjust timing as needed
-        });
+                registrationContent.classList.add('visible');
+            }, 2000); // Adjust timing as needed
 
-        // Password strength meter
-        document.getElementById('pwaRegPassword').addEventListener('input', function() {
-            const password = this.value;
-            const strength = calculatePasswordStrength(password);
-            const progressBar = document.getElementById('passwordStrength');
-            progressBar.style.width = strength + '%';
-            progressBar.setAttribute('aria-valuenow', strength);
-            if (strength < 33) {
-                progressBar.className = 'progress-bar bg-danger';
-            } else if (strength < 66) {
-                progressBar.className = 'progress-bar bg-warning';
-            } else {
-                progressBar.className = 'progress-bar bg-success';
+            // Password strength meter
+            document.getElementById('pwaRegPassword').addEventListener('input', function() {
+                const password = this.value;
+                const strength = calculatePasswordStrength(password);
+                const progressBar = document.getElementById('passwordStrength');
+                progressBar.style.width = strength + '%';
+                progressBar.setAttribute('aria-valuenow', strength);
+                if (strength < 33) {
+                    progressBar.className = 'progress-bar bg-danger';
+                } else if (strength < 66) {
+                    progressBar.className = 'progress-bar bg-warning';
+                } else {
+                    progressBar.className = 'progress-bar bg-success';
+                }
+            });
+
+            function calculatePasswordStrength(password) {
+                // Implement your password strength logic here
+                // This is a simple example and should be more comprehensive in a real application
+                let strength = 0;
+                if (password.length > 6) strength += 25;
+                if (password.match(/[a-z]+/)) strength += 25;
+                if (password.match(/[A-Z]+/)) strength += 25;
+                if (password.match(/[0-9]+/)) strength += 25;
+                return strength;
             }
         });
-
-        function calculatePasswordStrength(password) {
-            // Implement your password strength logic here
-            // This is a simple example and should be more comprehensive in a real application
-            let strength = 0;
-            if (password.length > 6) strength += 25;
-            if (password.match(/[a-z]+/)) strength += 25;
-            if (password.match(/[A-Z]+/)) strength += 25;
-            if (password.match(/[0-9]+/)) strength += 25;
-            return strength;
-        }
     </script>
 </body>
 </html>

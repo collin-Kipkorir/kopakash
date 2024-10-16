@@ -34,30 +34,29 @@
         .card {
             border: none;
             border-radius: 7px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            background: linear-gradient(145deg, #ffffff, #f0f0f0);
         }
         .card-body {
-            padding: 3rem;
+            padding: 40px;
         }
         .btn-primary {
-            background: linear-gradient(to right, var(--accent-color), #FFD700);
-            border: none;
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
             color: var(--primary-color);
             font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 50px;
+            padding: 10px 20px;
+            border-radius: 10px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background-color: #d89400;
+            border-color: #d89400;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .form-label {
             font-weight: 500;
-            color: var(--secondary-color);
             margin-bottom: 0.5rem;
         }
         .form-control, .form-select {
@@ -77,19 +76,8 @@
             margin-bottom: 2rem;
             box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
         }
-        .current-limit h5 {
-            color: var(--secondary-color);
+        h1, h2, h3, h4, h5, h6 {
             font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .current-limit h2 {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-        h1 {
-            color: var(--primary-color);
-            font-weight: 700;
-            margin-bottom: 2rem;
         }
         .progress {
             height: 10px;
@@ -107,68 +95,71 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
+            background: #c3cfe2;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.5s ease-out;
         }
-        #loadingOverlay.fade-out {
-            opacity: 0;
-        }
-        .spinner {
-            width: 50px;
-            height: 50px;
+        .loader {
+            width: 60px;
+            height: 60px;
             border: 5px solid var(--accent-color);
-            border-top: 5px solid var(--primary-color);
+            border-bottom-color: transparent;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
         }
-        @keyframes spin {
+        .loader-inner {
+            width: 100%;
+            height: 100%;
+            border: 5px solid var(--light-color);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: rotation 0.5s linear infinite reverse;
+        }
+        @keyframes rotation {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
         #mainContent {
             opacity: 0;
-            transition: opacity 0.5s ease-in;
+            visibility: hidden;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
         }
-        #mainContent.fade-in {
+        #mainContent.visible {
             opacity: 1;
+            visibility: visible;
         }
 
         /* Responsive styles */
         @media (max-width: 768px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
             .card-body {
-                padding: 2rem;
+                padding: 20px;
             }
-            h1 {
-                font-size: 1.8rem;
-            }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.5rem; }
             .current-limit {
                 padding: 1.5rem;
             }
-            .current-limit h2 {
-                font-size: 1.8rem;
-            }
             .btn-primary {
-                padding: 10px 20px;
+                padding: 8px 16px;
             }
         }
 
         @media (max-width: 576px) {
             .card-body {
-                padding: 1.5rem;
+                padding: 15px;
             }
-            h1 {
-                font-size: 1.5rem;
-                margin-bottom: 1.5rem;
-            }
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.3rem; }
             .current-limit {
                 padding: 1rem;
-            }
-            .current-limit h2 {
-                font-size: 1.5rem;
             }
             .btn-primary {
                 padding: 8px 16px;
@@ -176,30 +167,64 @@
             }
             .form-control, .form-select {
                 padding: 10px;
+                font-size: 0.9rem;
             }
         }
 
         @media (max-width: 320px) {
             .card-body {
-                padding: 1rem;
+                padding: 10px;
             }
-            h1 {
-                font-size: 1.3rem;
-                margin-bottom: 1rem;
-            }
-            .current-limit h2 {
-                font-size: 1.3rem;
-            }
+            h1 { font-size: 1.4rem; }
+            h2 { font-size: 1.2rem; }
             .btn-primary {
                 padding: 6px 12px;
                 font-size: 0.8rem;
+            }
+            .form-control, .form-select {
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Improve touch targets for mobile */
+        @media (max-width: 768px) {
+            .form-control, .form-select, .btn {
+                min-height: 35px;
+            }
+            .navbar-toggler {
+                padding: 0.25rem 0.5rem;
+            }
+        }
+
+        /* Improve readability on small screens */
+        @media (max-width: 576px) {
+            body {
+                font-size: 0.85rem;
+            }
+            .form-label {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Adjust loader size for smaller screens */
+        @media (max-width: 576px) {
+            .loader {
+                width: 40px;
+                height: 40px;
+                border-width: 4px;
+            }
+            .loader-inner {
+                border-width: 4px;
             }
         }
     </style>
 </head>
 <body>
     <div id="loadingOverlay">
-        <div class="spinner"></div>
+        <div class="loader">
+            <div class="loader-inner"></div>
+        </div>
     </div>
 
     <div id="mainContent">
@@ -269,38 +294,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const increaseLimitBtn = document.getElementById('increaseLimitBtn');
-            
-            if (increaseLimitBtn) {
-                increaseLimitBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Create and show loading overlay
-                    const loadingOverlay = document.createElement('div');
-                    loadingOverlay.id = 'loadingOverlay';
-                    loadingOverlay.innerHTML = '<div class="spinner"></div>';
-                    document.body.appendChild(loadingOverlay);
-
-                    // Navigate to increase limit page
-                    setTimeout(() => {
-                        window.location.href = 'pwa-increase.html';
-                    }, 500); // Short delay for the overlay to be visible
-                });
-            }
-
             const loadingOverlay = document.getElementById('loadingOverlay');
             const mainContent = document.getElementById('mainContent');
 
             // Simulate loading time (you can remove this in production)
             setTimeout(() => {
-                loadingOverlay.classList.add('fade-out');
-                mainContent.classList.add('fade-in');
-
-                // Remove the overlay after the animation
-                setTimeout(() => {
-                    loadingOverlay.style.display = 'none';
-                }, 500);
-            }, 1000); // Simulated 1 second loading time
+                loadingOverlay.style.display = 'none';
+                mainContent.classList.add('visible');
+            }, 2000); // Simulated 2 second loading time
 
             const form = document.getElementById('increaseLimitForm');
             form.addEventListener('submit', function(e) {
