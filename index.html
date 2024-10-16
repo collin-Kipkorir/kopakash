@@ -280,10 +280,10 @@
                         <a class="nav-link" href="#" id="downloadAppLink">Download</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="pwa-login.html" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+                        <a class="nav-link" href="./pwa-login.html">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="pwa-registration.html" data-bs-toggle="modal" data-bs-target="#registerModal">Get Started</a>
+                        <a class="btn btn-primary" href="./pwa-registration.html">Get Started</a>
                     </li>
                 </ul>
             </div>
@@ -471,5 +471,17 @@
             });
         }
     </script>
+    <script>
+document.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A' && e.target.href.startsWith(window.location.origin)) {
+        e.preventDefault();
+        navigateTo(e.target.href);
+    }
+});
+
+function navigateTo(url) {
+    window.location.href = url;
+}
+</script>
 </body>
 </html>

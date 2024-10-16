@@ -41,5 +41,9 @@ self.addEventListener('fetch', (event) => {
           }
         );
       })
+      .catch(() => {
+        // If both cache and network fail, serve a fallback HTML
+        return caches.match('./index.html');
+      })
   );
 });
