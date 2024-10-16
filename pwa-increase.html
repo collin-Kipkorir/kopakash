@@ -28,6 +28,8 @@
         }
         .container {
             max-width: 800px;
+            width: 100%;
+            padding: 0 15px;
         }
         .card {
             border: none;
@@ -133,6 +135,65 @@
         }
         #mainContent.fade-in {
             opacity: 1;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 2rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .current-limit {
+                padding: 1.5rem;
+            }
+            .current-limit h2 {
+                font-size: 1.8rem;
+            }
+            .btn-primary {
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-body {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            .current-limit {
+                padding: 1rem;
+            }
+            .current-limit h2 {
+                font-size: 1.5rem;
+            }
+            .btn-primary {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            .form-control, .form-select {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .card-body {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+            .current-limit h2 {
+                font-size: 1.3rem;
+            }
+            .btn-primary {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>

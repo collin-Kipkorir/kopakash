@@ -221,6 +221,121 @@
                 width: 36px;
             }
         }
+
+        /* Enhanced responsive styles */
+        @media (max-width: 992px) {
+            .container {
+                max-width: 95%;
+            }
+            .card-body-top {
+                flex-direction: column;
+            }
+            .quick-action {
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.5rem; }
+            .quick-action { 
+                padding: 15px;
+                margin-bottom: 1rem;
+            }
+            .quick-action i { font-size: 1.8rem; }
+            .card-body {
+                padding: 1.5rem;
+            }
+            .progress {
+                height: 10px;
+            }
+            .list-group-item {
+                padding: 15px 0;
+            }
+            .badge {
+                padding: 6px 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.3rem; }
+            .quick-action { 
+                padding: 10px;
+            }
+            .quick-action i { font-size: 1.5rem; }
+            .card-body {
+                padding: 1rem;
+            }
+            .progress {
+                height: 8px;
+            }
+            .list-group-item {
+                padding: 12px 0;
+            }
+            .badge {
+                padding: 5px 8px;
+                font-size: 0.75rem;
+            }
+            .logo-img {
+                height: 32px;
+                width: 32px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            h1 { font-size: 1.4rem; }
+            h2 { font-size: 1.2rem; }
+            .quick-action { 
+                padding: 8px;
+            }
+            .quick-action i { font-size: 1.3rem; }
+            .card-body {
+                padding: 0.8rem;
+            }
+            .list-group-item {
+                padding: 10px 0;
+            }
+            .badge {
+                padding: 4px 6px;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Improve touch targets for mobile */
+        @media (max-width: 768px) {
+            .btn, .nav-link, .list-group-item {
+                padding: 0.5rem 0.75rem;
+            }
+            .navbar-toggler {
+                padding: 0.25rem 0.5rem;
+            }
+        }
+
+        /* Adjust layout for very small screens */
+        @media (max-width: 360px) {
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .card-body-top {
+                padding: 1rem;
+            }
+        }
+
+        /* Improve readability on small screens */
+        @media (max-width: 576px) {
+            body {
+                font-size: 0.9rem;
+            }
+            .card-body-top {
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
