@@ -196,56 +196,76 @@
         .navbar-brand {
             display: flex;
             align-items: center;
-            padding: 0;
+            flex-wrap: wrap;
         }
 
         .logo-img {
-            height: 40px; /* Slightly larger than before */
-            width: 40px; /* Ensure it's square */
-            border-radius: 50%; /* Make it round */
-            object-fit: cover; /* Ensure the image fills the space without distortion */
-            border: 2px solid var(--accent-color); /* Add a border with your accent color */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+            height: 30px;
+            width: auto;
         }
 
-        .navbar-brand:hover .logo-img {
-            transform: scale(1.05); /* Slightly enlarge on hover */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Increased shadow on hover */
+        .welcome-message {
+            color: var(--light-color);
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        .welcome-message h5 {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-brand {
+                max-width: 70%;
+            }
+            
+            .welcome-message {
+                font-size: 0.8rem;
+            }
+            
+            .welcome-message h5 {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .navbar-brand {
+                max-width: 80%;
+            }
+            
+            .logo-img {
+                height: 25px;
+            }
+            
+            .welcome-message {
+                font-size: 0.7rem;
+            }
+            
+            .welcome-message h5 {
+                font-size: 0.7rem;
+            }
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .logo-img {
-                height: 36px;
-                width: 36px;
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
             }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.7rem; }
+            .quick-action { padding: 10px; }
+            .quick-action i { font-size: 2rem; }
         }
 
-        /* Enhanced responsive styles */
-        @media (max-width: 992px) {
+        @media (max-width: 576px) {
             .container {
                 max-width: 98%;
             }
-            .card-body-top {
-                flex-direction: column;
-            }
-            .row {
-                text-align: start;
-            }
-            .quick-action {
-                margin-bottom: 1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-            h1 { font-size: 1.6rem; }
-            h2 { font-size: 1.4rem; }
-            h3 { font-size: 1.2rem; }
+            h1 { font-size: 1.4rem; }
+            h2 { font-size: 1.2rem; }
+            h3 { font-size: 1.1rem; }
             h5 { font-size: 1rem; }
             .quick-action { 
                 padding: 15px;
@@ -278,47 +298,10 @@
             }
         }
 
-        @media (max-width: 576px) {
-            h1 { font-size: 1.4rem; }
-            h2 { font-size: 1.2rem; }
-            h3 { font-size: 1.1rem; }
-            h5 { font-size: 0.9rem; }
-            .quick-action { 
-                padding: 12px;
-            }
-            .quick-action i { font-size: 1.3rem; }
-            .quick-action p { font-size: 0.75rem; }
-            .card-body {
-                padding: 1rem;
-            }
-            .progress {
-                height: 6px;
-            }
-            .list-group-item {
-                padding: 10px 0;
-                font-size: 0.85rem;
-            }
-            .badge {
-                padding: 4px 6px;
-                font-size: 0.65rem;
-            }
-            .card-title {
-                font-size: 1rem;
-            }
-            .card-text {
-                font-size: 0.85rem;
-            }
-            .btn {
-                font-size: 0.85rem;
-                padding: 0.25rem 0.5rem;
-            }
-            .logo-img {
-                height: 30px;
-                width: 30px;
-            }
-        }
-
         @media (max-width: 320px) {
+            .container {
+                max-width: 98%;
+            }
             h1 { font-size: 1.3rem; }
             h2 { font-size: 1.1rem; }
             h3 { font-size: 1rem; }
@@ -353,6 +336,9 @@
 
         /* Improve touch targets for mobile */
         @media (max-width: 768px) {
+            .container {
+                max-width: 98%;
+            }
             .btn, .nav-link, .list-group-item {
                 padding: 0.5rem 0.75rem;
             }
@@ -364,8 +350,7 @@
         /* Adjust layout for very small screens */
         @media (max-width: 360px) {
             .container {
-                padding-left: 10px;
-                padding-right: 10px;
+                max-width: 98%;
             }
             .card-body-top {
                 padding: 5px;
@@ -377,6 +362,9 @@
 
         /* Improve readability on small screens */
         @media (max-width: 576px) {
+            .container {
+                max-width: 98%;
+            }
             body {
                 font-size: 0.85rem;
             }
@@ -513,6 +501,17 @@
             font-size: 1rem;
         }
     }
+
+    .welcome-message {
+        color: var(--light-color);
+        white-space: nowrap;
+    }
+
+    .welcome-message h5 {
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+
     </style>
 </head>
 <body>
@@ -525,8 +524,11 @@
     <div id="mainContent">
         <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
             <div class="container">
-                <a class="navbar-brand" href="#">
-                    <img src="images/icon-192x192.png" alt="Kopa Kash Logo" class="logo-img">
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <img src="images/icon-192x192.png" alt="Kopa Kash Logo" class="logo-img me-2">
+                    <div class="welcome-message d-flex align-items-center">
+                        <h5 class="mb-0">Welcome,Collo</h5>
+                    </div>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -548,8 +550,6 @@
         </nav>
 
         <div class="container mt-4">
-            <h3 class="mb-4">Welcome, [User Name]</h3>
-            
             <div class="card-body-top mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Current Loan Status</h5>
