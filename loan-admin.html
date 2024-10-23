@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding-top: 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar a {
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #0056b3;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Toggle Button for Mobile View -->
+    <button class="btn btn-primary d-md-none" id="toggleSidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
+        <h4 class="text-center">Admin Panel</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-view="dashboard"><i class="fas fa-tachometer-alt"></i>
+                    Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-view="loanApplications"><i class="fas fa-money-bill-wave"></i> Loan
+                    Applications</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-view="applicants"><i class="fas fa-users"></i> Applicants</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-view="reports"><i class="fas fa-chart-line"></i> Reports</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-view="settings"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <!-- Dashboard is visible by default -->
+        <div id="dashboard">
+            <h2>Dashboard</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h6 class="card-title">Active Applicants</h6>
+                            <h2 id="activeApplicants">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h6 class="card-title">Pending Applications</h6>
+                            <h2 id="pendingApplications">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h6 class="card-title">Approved Applications</h6>
+                            <h2 id="approvedApplications">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loanApplications" class="hidden">
+            <h4>Loan Applications</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Loan Amount</th>
+                        <th>Total Repayment</th>
+                        <th>Amount Paid</th>
+                        <th>Status</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="loanList">
+                    <!-- Loan applications will be appended here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="applicants" class="hidden">
+            <h4>Applicants</h4>
+            <div id="applicantList" class="row"></div>
+        </div>
+
+        <div id="reports" class="hidden">
+            <h4>Reports Section</h4>
+            <p>Reports content goes here.</p>
+        </div>
+
+        <div id="settings" class="hidden">
+            <h4>Settings Section</h4>
+            <p>Settings content goes here.</p>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWStEsRLNBSpkThgXeLmk_1EkPduKyhW8",
+            authDomain: "kopakash-307ab.firebaseapp.com",
+            projectId: "kopakash-307ab",
+            storageBucket: "kopakash-307ab.appspot.com",
+            messagingSenderId: "646396248316",
+            appId: "1:646396248316:web:f779c34a3231ff08bfd779",
+            measurementId: "G-0XYJCMQF05"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Load Dashboard Data
+        function loadDashboardData() {
+            const loansRef = ref(database, 'loans');
+            get(loansRef).then((snapshot) => {
+                let activeLoans = 0;
+                let pendingLoans = 0;
+                let approvedLoans = 0;
+
+                snapshot.forEach((phoneSnapshot) => {
+                    phoneSnapshot.forEach((loanSnapshot) => {
+                        const loanData = loanSnapshot.val();
+                        if (loanData.processingFeePaid) {
+                            approvedLoans++;
+                        } else {
+                            pendingLoans++;
+                        }
+                        activeLoans++;
+                    });
+                });
+
+                $('#activeApplicants').text(activeLoans);
+                $('#pendingApplications').text(pendingLoans);
+                $('#approvedApplications').text(approvedLoans);
+            }).catch((error) => {
+                console.error("Error retrieving loans: ", error);
+            });
+        }
+        // Load Loan Applications Data
+        function loadLoanApplicationsData() {
+            const loansRef = ref(database, 'loans');
+            get(loansRef).then((snapshot) => {
+                const loanList = $('#loanList');
+                loanList.empty();
+                const uniqueLoans = new Set(); // Use a Set to avoid duplicates
+
+                snapshot.forEach((phoneSnapshot) => {
+                    phoneSnapshot.forEach((loanSnapshot) => {
+                        const loanData = loanSnapshot.val();
+                        const loanId = `${phoneSnapshot.key}/${loanSnapshot.key}`; // Unique loan key
+
+                        // Check if this loan has already been processed
+                        if (!uniqueLoans.has(loanId)) {
+                            uniqueLoans.add(loanId); // Add to Set to prevent duplicates
+
+                            const loanItem = `
+                        <tr>
+                            <td>${loanId}</td>
+                            <td>${loanData.fullName || ''}</td>
+                            <td>Ksh ${loanData.loanAmount}</td>
+                            <td>Ksh ${loanData.totalRepayment}</td>
+                            <td>Ksh ${loanData.amountPaid}</td>
+                            <td>${loanData.processingFeePaid ? 'Approved' : 'Pending'}</td>
+                            <td>${loanData.email || ''}</td>
+                            <td>${loanData.phone || ''}</td>
+                            <td>
+                                <button class="btn btn-success" onclick="approveLoan('${loanId}')">Approve</button>
+                                <button class="btn btn-danger" onclick="rejectLoan('${loanId}')">Reject</button>
+                            </td>
+                        </tr>`;
+                            loanList.append(loanItem);
+                        }
+                    });
+                });
+            }).catch((error) => {
+                console.error("Error retrieving loan applications: ", error);
+            });
+        }
+
+        // Approve a loan
+        function approveLoan(loanId) {
+            const loanRef = ref(database, `loans/${loanId}`);
+            update(loanRef, { processingFeePaid: true })
+                .then(() => {
+                    console.log("Loan approved successfully!");
+                    loadLoanApplicationsData();
+                    loadDashboardData();
+                })
+                .catch((error) => {
+                    console.error("Error approving loan: ", error);
+                });
+        }
+
+        // Reject a loan
+        function rejectLoan(loanId) {
+            const loanRef = ref(database, `loans/${loanId}`);
+            update(loanRef, { processingFeePaid: false })
+                .then(() => {
+                    console.log("Loan rejected successfully!");
+                    loadLoanApplicationsData();
+                    loadDashboardData();
+                })
+                .catch((error) => {
+                    console.error("Error rejecting loan: ", error);
+                });
+        }
+
+        // Make the functions accessible globally
+        window.approveLoan = approveLoan;
+        window.rejectLoan = rejectLoan;
+
+
+        $(document).ready(function () {
+            loadDashboardData();
+            loadLoanApplicationsData();
+
+            // Sidebar toggle
+            $('#toggleSidebar').click(function () {
+                $('#sidebar').toggleClass('show');
+            });
+
+            // Switch between views
+            $('.nav-link').click(function (event) {
+                event.preventDefault();
+                const view = $(this).data('view');
+
+                // Hide all views
+                $('.content > div').addClass('hidden');
+
+                // Show selected view
+                $(`#${view}`).removeClass('hidden');
+
+                // Mark the clicked link as active
+                $('.nav-link').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

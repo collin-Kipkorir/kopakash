@@ -20,10 +20,15 @@
             color: var(--dark-color);
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
+            transition: background 0.3s, color 0.3s; /* Smooth transition */
         }
         .navbar {
             background-color: rgba(26, 54, 54, 0.9);
             backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
         .btn-primary {
             background: linear-gradient(to right, var(--accent-color), #FFD700);
@@ -512,9 +517,197 @@
         margin-bottom: 0;
     }
 
+    /* Dark Mode Styles */
+    body.dark-mode {
+        background: #121212;
+        color: #ffffff;
+    }
+    .navbar.dark-mode {
+        background-color: #1a1a1a;
+    }
+    .card.dark-mode {
+        background: #1e1e1e;
+        color: #ffffff;
+    }
+    .btn.dark-mode {
+        background: #3a3a3a;
+        color: #ffffff;
+    }
+    .list-group-item.dark-mode {
+        background-color: #2a2a2a;
+        color: #ffffff;
+    }
+    footer {
+        background-color: #f8f9fa; /* Light background for footer */
+        color: var(--dark-color); /* Default text color */
+        
+    }
+    footer.dark-mode {
+        background-color: #1a1a1a; /* Dark background for footer in dark mode */
+        color: #ffffff; /* White text color for footer in dark mode */
+    }
+    /* Add more styles as needed for other elements */
+
+    .promo-card {
+        background: linear-gradient(145deg, #f0f0f0, #ffffff);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
+            display: flex;
+    }
+
+    .promo-card:hover {
+      
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
+    }
+
+    .promo-card-title {
+        font-size: 1.6rem; /* Larger font size for the title */
+        font-weight: 700; /* Bold title */
+        color: #1A3636; /* Dark color for contrast */
+        margin-bottom: 0.5rem; /* Space below the title */
+    }
+
+    .promo-card-text {
+        font-size: 1rem; /* Standard font size for text */
+        color: #555; /* Slightly lighter color for text */
+        margin-bottom: 1rem; /* Space below the text */
+        line-height: 1.5; /* Improved line height for readability */
+    }
+
+    .promo-benefits {
+        list-style: none; /* Remove default list styling */
+        padding: 0; /* Remove padding */
+        margin: 1rem 0; /* Margin for spacing */
+    }
+
+    .promo-benefits li {
+        font-size: 0.9rem; /* Font size for benefits */
+        color: #333; /* Darker color for text */
+        margin-bottom: 0.5rem; /* Space between items */
+    }
+
+    .promo-benefits li i {
+        color: var(--accent-color); /* Accent color for icons */
+        margin-right: 0.5rem; /* Space between icon and text */
+    }
+
+    .testimonial {
+        font-style: italic; /* Italic style for testimonials */
+        color: #777; /* Lighter color for testimonial text */
+        margin-top: 1rem; /* Space above testimonial */
+    }
+
+    .promo-btn {
+        background: linear-gradient(to right, #F0A500, #FFD700); /* Gradient background for the button */
+        border: none; /* Remove border */
+        color: #1A3636; /* Dark text color */
+        font-weight: 600; /* Bold text */
+        padding: 12px 24px; /* Padding for the button */
+        border-radius: 7px; /* Rounded button */
+        transition: background 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+        text-decoration: none; /* Remove underline */
+        font-size: 1rem; /* Standard font size for button */
+    }
+
+    .promo-btn:hover {
+        background: #FFD700; /* Solid color on hover */
+        transform: scale(1.05); /* Slightly enlarge on hover */
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .promo-card-title {
+            font-size: 1.4rem; /* Adjust title size for smaller screens */
+        }
+        .promo-card-text {
+            font-size: 0.9rem; /* Adjust text size for smaller screens */
+        }
+        .promo-btn {
+            padding: 10px 20px; /* Adjust button padding for smaller screens */
+        }
+        .promo-benefits li {
+            font-size: 0.8rem; /* Adjust benefits font size for smaller screens */
+        }
+    }
+
+    /* Custom styles for the payment modal */
+    .modal-header {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+    }
+
+    .modal-title {
+        font-weight: bold;
+    }
+
+    .modal-body {
+        padding: 20px; /* Add padding for better spacing */
+    }
+
+    .form-control {
+        border-radius: 0.25rem; /* Rounded corners */
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Bootstrap primary color */
+        border-color: #007bff;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        border-color: #0056b3;
+    }
+   
+
+
+
+    /* Media Query for Responsiveness */
+    @media (max-width: 576px) {
+        .loan-info-value {
+            font-size: 1.5rem; /* Larger font size on small screens */
+        }
+    }
+    .loan-status-container {
+        background-color: #e7f3ff; /* Light blue background */
+        border: 1px solid #b3d7ff; /* Slightly darker blue border */
+        border-radius: 8px; /* Rounded corners */
+        padding: 10px 15px; /* Padding around the text */
+        display: flex; /* Flexbox for alignment */
+        align-items: center; /* Center items vertically */
+        margin-bottom: 20px; /* Space below the container */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    }
+
+    .loan-status-text {
+        font-size: 1.25rem; /* Increased font size */
+        font-weight: bold; /* Bold text */
+        color: #3a3a3a; /* Dark text color */
+        margin: 0; /* Remove default margin */
+    }
+
+    .loan-status-badge {
+        background-color: #ffcc00; /* Bright yellow for visibility */
+        color: #000; /* Black text color for contrast */
+        padding: 5px 10px; /* Padding for badge */
+        font-size: 1rem; /* Font size for badge */
+        border-radius: 12px; /* Rounded badge */
+        font-weight: bold; /* Bold text for badge */
+    }
+
+    /* Optional: Adding an icon */
+    .loan-status-container::before {
+        content: '💵'; /* You can replace this with a relevant icon */
+        font-size: 1.5rem; /* Icon size */
+        margin-right: 10px; /* Space between icon and text */
+    }
     </style>
 </head>
 <body>
+   
+
     <div id="loadingScreen">
         <div class="loader">
             <div class="loader-inner"></div>
@@ -527,7 +720,7 @@
                 <a class="navbar-brand d-flex align-items-center" href="#">
                     <img src="images/icon-192x192.png" alt="Kopa Kash Logo" class="logo-img me-2">
                     <div class="welcome-message d-flex align-items-center">
-                        <h5 class="mb-0">Welcome,Collo</h5>
+                        <h5 class="mb-0" id="welcomeUser">Welcome, User</h5> <!-- Placeholder for user name -->
                     </div>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -536,13 +729,18 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-user"></i> Profile</a>
+                            <a class="nav-link" href="#" id="profileLink"><i class="fas fa-user"></i> Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fas fa-bell"></i> Notifications</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            <a class="nav-link" href="#" id="logoutButton"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </li>
+                        <li>
+                            <button id="darkModeToggle" class="btn btn-secondary">
+                                <i class="fas fa-sun" id="toggleIcon"></i>
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -550,34 +748,65 @@
         </nav>
 
         <div class="container mt-4">
-            <div class="card-body-top mb-4">
+            <!-- Promotional Card -->
+            <div id="promoCard" class="promo-card mb-4" style="display: none;">
+                <div class="promo-card-body d-flex flex-column justify-content-between" style="height: 100%;">
+                    <div>
+                        <h5 class="promo-card-title">Get Up To $40,000 And Competitive Fixed Rates</h5>
+                        <p class="promo-card-text">Apply now to take advantage of our low rates and flexible terms. Whether it's for home improvement, debt consolidation, or unexpected expenses, we've got you covered!</p>
+                        <ul class="promo-benefits">
+                            <li><i class="fas fa-check-circle"></i> Fast and easy application process</li>
+                            <li><i class="fas fa-check-circle"></i> No hidden fees</li>
+                            <li><i class="fas fa-check-circle"></i> Flexible repayment options</li>
+                        </ul>
+                     
+                    </div>
+                    <div class="text-center">
+                        <a class='promo-btn' href='loan-application.html'>Apply Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Loan Status Card -->
+            <div id="loanStatusCard" class="card-body-top mb-4" style="display: none;">
                 <div class="card-body">
-                    <h5 class="card-title">Current Loan Status</h5>
+                    <h5 class="card-title" style="color: #3a3a3a;">Current Loan Status</h5>
+                   <!-- Loan Status Display -->
+<div id="loanStatusDisplay" class="loan-status-container mb-4">
+    <p class="mb-1 loan-status-text">Loan Status: <span id="loanStatusValue" class="badge loan-status-badge">Pending</span></p>
+</div>
                     <div class="row g-4">
-                        <div class="col-md-4">
+                        <div class="col-6 col-md-4"> <!-- 6 columns on extra small screens and 4 on medium and larger screens -->
                             <div class="loan-info-item">
-                                <p class="mb-1 text-muted">Loan Amount</p>
-                                <h3 class="loan-info-value">$5,000</h3>
+                                <p class="mb-1 text-muted">Applied Amount</p>
+                                <h3 class="loan-info-value" id="loanAmountValue">$0</h3> <!-- Placeholder for Applied Amount -->
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-6 col-md-4"> <!-- 6 columns on extra small screens and 4 on medium and larger screens -->
                             <div class="loan-info-item">
-                                <p class="mb-1 text-muted">Next Payment Due</p>
-                                <h3 class="loan-info-value">July 15, 2023</h3>
+                                <p class="mb-1 text-muted">Repayment Due Date</p>
+                                <h3 class="loan-info-value" id="repaymentDateValue">N/A</h3> <!-- Placeholder for Repayment Date -->
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-6 col-md-4"> <!-- 6 columns on extra small screens and 4 on medium and larger screens -->
+                            <div class="loan-info-item">
+                                <p class="mb-1 text-muted">Total Repayment</p>
+                                <h3 class="loan-info-value" id="totalRepaymentValue">$0</h3> <!-- Placeholder for Total Repayment -->
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4"> <!-- 6 columns on extra small screens and 4 on medium and larger screens -->
                             <div class="loan-info-item">
                                 <p class="mb-1 text-muted">Remaining Balance</p>
-                                <h3 class="loan-info-value">$3,500</h3>
+                                <h3 class="loan-info-value" id="remainingBalanceValue">$0</h3> <!-- Placeholder for Remaining Balance -->
                             </div>
                         </div>
                     </div>
+                   
                     <div class="progress-container mt-4">
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
-                        <div class="progress-label">30% Paid</div>
+                        <div class="progress-label" id="progressLabel">0% Paid</div> <!-- Placeholder for Progress -->
                     </div>
                 </div>
             </div>
@@ -649,35 +878,186 @@
             </div>
         </div>
 
-        <footer class="mt-5 py-3 bg-light">
+        <footer class="mt-5 py-3 bg-light" id="footer">
             <div class="container text-center">
-                <p class="mb-0">&copy; 2024 Kopa Kash. All rights reserved.</p>
+                <p class="mb-0" style="color: #3a3a3a;">&copy; 2024 Kopa Kash. All rights reserved.</p>
             </div>
         </footer>
     </div>
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWStEsRLNBSpkThgXeLmk_1EkPduKyhW8",
+            authDomain: "kopakash-307ab.firebaseapp.com",
+            projectId: "kopakash-307ab",
+            storageBucket: "kopakash-307ab.appspot.com",
+            messagingSenderId: "646396248316",
+            appId: "1:646396248316:web:f779c34a3231ff08bfd779",
+            measurementId: "G-0XYJCMQF05"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loadingScreen');
             const mainContent = document.getElementById('mainContent');
+            const welcomeUser = document.getElementById('welcomeUser');
+            const promoCard = document.getElementById('promoCard');
+            const loanStatusCard = document.getElementById('loanStatusCard');
 
             // Simulate data loading
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 mainContent.classList.add('visible');
 
-                // Populate user data, loan status, etc.
-                document.querySelector('h3').textContent = 'Welcome, John Doe';
+                // Retrieve user data from local storage
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (user) {
+                    // Display the user's phone number or name
+                    welcomeUser.textContent = `Welcome, ${user.phone}`; // Change to user.name if you store the name
+                    // Store the user's phone number in local storage for later use
+                    localStorage.setItem('userPhone', user.phone); // Ensure this line is present
 
-                // Animate the progress bar after a short delay
-                setTimeout(() => {
-                    const progressBar = document.querySelector('.progress-bar');
-                    if (progressBar) {
-                        progressBar.style.width = '30%';
-                    }
-                }, 500); // 500ms delay before animating the progress bar
-            }, 2000); // Simulating 2 seconds of loading time
+                    // Check for pending loan applications
+                    const userPhone = localStorage.getItem('userPhone'); // Retrieve the user's phone number from local storage
+                    const loansRef = ref(database, 'loans/' + userPhone); // Path to the user's loans
+
+                    get(loansRef).then((snapshot) => {
+                        if (snapshot.exists()) {
+                            const loanData = snapshot.val();
+                            const loanApplications = Object.values(loanData); // Get all loan applications
+
+                            // Check if any loan application exists
+                            if (loanApplications.length > 0) {
+                                // Show loan status card
+                                loanStatusCard.style.display = 'block';
+                                promoCard.style.display = 'none'; // Hide promotional card
+
+                                // Populate loan status card with data from the first loan application
+                                const currentLoan = loanApplications[0]; // Assuming you want the first loan application
+
+                                // Check the loanAmount and convert it to a number if necessary
+                                let loanAmount = currentLoan.loanAmount;
+
+                                // Log the loanAmount to see its value
+                                console.log("Loan Amount:", loanAmount);
+
+                                // Convert loanAmount to a number if it's not already
+                                loanAmount = parseFloat(loanAmount); // Convert to a float
+
+                                if (!isNaN(loanAmount)) { // Check if the conversion was successful
+                                    // Now you can safely call toFixed
+                                    const loanAmountElement = document.getElementById('loanAmountValue');
+                                    if (loanAmountElement) {
+                                        loanAmountElement.textContent = `$${loanAmount.toFixed(2)}`; // Display applied amount with cents
+                                    } else {
+                                        console.error("Element with ID 'loanAmountValue' not found.");
+                                    }
+                                } else {
+                                    console.error("Loan amount is not a valid number:", currentLoan.loanAmount);
+                                    // Optionally set a default value
+                                    const loanAmountElement = document.getElementById('loanAmountValue');
+                                    if (loanAmountElement) {
+                                        loanAmountElement.textContent = `$0.00`; // Fallback to $0.00 if invalid
+                                    }
+                                }
+
+                                // Update Remaining Balance
+                                const remainingBalance = currentLoan.totalRepayment - (currentLoan.amountPaid || 0); // Calculate remaining balance
+                                const remainingBalanceElement = document.getElementById('remainingBalanceValue');
+                                if (remainingBalanceElement) {
+                                    remainingBalanceElement.textContent = `$${remainingBalance.toFixed(2)}`; // Update UI
+                                } else {
+                                    console.error("Element with ID 'remainingBalanceValue' not found.");
+                                }
+
+                                // Populate Repayment Date
+                                const repaymentDateElement = document.getElementById('repaymentDateValue');
+                                if (repaymentDateElement) {
+                                    repaymentDateElement.textContent = currentLoan.paymentDate || 'N/A'; // Display repayment date
+                                } else {
+                                    console.error("Element with ID 'repaymentDateValue' not found.");
+                                }
+
+                                // Populate Total Repayment
+                                const totalRepaymentElement = document.getElementById('totalRepaymentValue');
+                                if (totalRepaymentElement) {
+                                    totalRepaymentElement.textContent = `$${currentLoan.totalRepayment.toFixed(2)}`; // Display total repayment
+                                } else {
+                                    console.error("Element with ID 'totalRepaymentValue' not found.");
+                                }
+
+                                // Optionally, update the progress bar based on your logic
+                                const progressPercentage = ((currentLoan.amountPaid || 0) / currentLoan.totalRepayment) * 100; // Example calculation
+                                const progressBar = document.querySelector('.progress-bar');
+                                if (progressBar) {
+                                    progressBar.style.width = `${progressPercentage}%`;
+                                } else {
+                                    console.error("Progress bar element not found.");
+                                }
+                                const progressLabel = document.querySelector('.progress-label');
+                                if (progressLabel) {
+                                    progressLabel.textContent = `${progressPercentage.toFixed(0)}% Paid`;
+                                } else {
+                                    console.error("Progress label element not found.");
+                                }
+                            } else {
+                                // Show promotional card
+                                promoCard.style.display = 'block';
+                                loanStatusCard.style.display = 'none'; // Hide loan status card
+                            }
+                        } else {
+                            // No loan application found, show promotional card
+                            promoCard.style.display = 'block';
+                            loanStatusCard.style.display = 'none'; // Hide loan status card
+                        }
+                    }).catch((error) => {
+                        console.error("Error retrieving loan application data: ", error);
+                        // Default to showing the promotional card in case of error
+                        promoCard.style.display = 'block';
+                        loanStatusCard.style.display = 'none'; // Hide loan status card
+                    });
+                }
+            }, 2000);
+
+            // Dark Mode Toggle Functionality
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const footer = document.getElementById('footer');
+
+            // Check localStorage for dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                toggleIcon.classList.remove('fa-sun');
+                toggleIcon.classList.add('fa-moon');
+                footer.classList.add('dark-mode'); // Add dark mode class to footer
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                footer.classList.toggle('dark-mode'); // Toggle dark mode class for footer
+                if (document.body.classList.contains('dark-mode')) {
+                    toggleIcon.classList.remove('fa-sun');
+                    toggleIcon.classList.add('fa-moon');
+                    localStorage.setItem('darkMode', 'enabled'); // Save preference
+                } else {
+                    toggleIcon.classList.remove('fa-moon');
+                    toggleIcon.classList.add('fa-sun');
+                    localStorage.setItem('darkMode', 'disabled'); // Save preference
+                }
+            });
 
             // Add event listeners for loan application buttons
             const applyNewLoan = document.getElementById('applyNewLoan');
@@ -703,7 +1083,276 @@
                     window.location.href = 'pwa-increase.html'; // Navigate to the increase limit page
                 });
             }
+
+            const profileLink = document.getElementById('profileLink');
+
+            profileLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent the default link behavior
+
+                // Retrieve the user's phone number from local storage
+                const userPhone = localStorage.getItem('userPhone'); // Retrieve the phone number
+
+                if (userPhone) {
+                    // Create a reference to the user's data in Firebase using the phone number
+                    const userRef = ref(database, 'users/' + userPhone);
+                    
+                    // Retrieve user data from Firebase
+                    get(userRef).then((snapshot) => {
+                        if (snapshot.exists()) {
+                            const user = snapshot.val();
+                            // Populate the modal with user profile details
+                            document.getElementById('profileName').textContent = user.name;
+                            document.getElementById('profilePhone').textContent = user.phone;
+                            document.getElementById('profileEmail').textContent = user.email;
+                            document.getElementById('profileIdNumber').textContent = user.idNumber;
+                            document.getElementById('profileDob').textContent = user.dob;
+
+                            // Show the modal
+                            const profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
+                            profileModal.show();
+                        } else {
+                            alert('No user data found.');
+                        }
+                    }).catch((error) => {
+                        console.error("Error retrieving user data: ", error);
+                        alert('Error retrieving user data.');
+                    });
+                } else {
+                    alert('User phone number not found.');
+                }
+            });
+
+            // Logout functionality
+            const logoutButton = document.getElementById('logoutButton'); // Select the logout link
+
+            logoutButton.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent the default link behavior
+                console.log("Logout button clicked."); // Log for debugging
+
+                // Clear user data from local storage
+                localStorage.removeItem('user'); // Ensure this key exists
+                localStorage.removeItem('userPhone'); // Clear the phone number if stored
+
+                // Redirect to the login page
+                window.location.href = 'pwa-login.html'; // Change this to your actual login page URL
+            });
+
+            // Add event listener for the payment form submission
+            document.getElementById('paymentForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                const paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
+                const userPhone = localStorage.getItem('userPhone'); // Retrieve the user's phone number from local storage
+                const loansRef = ref(database, 'loans/' + userPhone); // Path to the user's loans
+
+                // Retrieve the current loan data
+                get(loansRef).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const loanData = snapshot.val();
+                        const loanApplications = Object.values(loanData); // Get all loan applications
+
+                        if (loanApplications.length > 0) {
+                            const currentLoan = loanApplications[0]; // Assuming you want the first loan application
+
+                            // Update the amount paid
+                            const updatedAmountPaid = (currentLoan.amountPaid || 0) + paymentAmount;
+
+                            // Get the current timestamp
+                            const paymentDate = new Date().toISOString(); // Get current date and time in ISO format
+
+                            // Update the loan record in Firebase
+                            const loanKey = Object.keys(loanData)[0]; // Get the loan key
+                            const loanRefToUpdate = ref(database, `loans/${userPhone}/${loanKey}`);
+
+                            update(loanRefToUpdate, {
+                                amountPaid: updatedAmountPaid,
+                                lastPaymentDate: paymentDate // Store the last payment date as the current timestamp
+                            }).then(() => {
+                                // Update the loan status card immediately
+                                updateLoanStatusCard(currentLoan, updatedAmountPaid);
+                                // Close the modal
+                                $('#paymentModal').modal('hide');
+                            }).catch((error) => {
+                                console.error('Error updating payment:', error);
+                                alert('There was an error processing your payment. Please try again.');
+                            });
+                        }
+                    }
+                }).catch((error) => {
+                    console.error("Error retrieving loan application data: ", error);
+                });
+            });
+
+            // Function to update the loan status card after payment
+            function updateLoanStatusCard(currentLoan, updatedAmountPaid) {
+                const remainingBalance = currentLoan.totalRepayment - updatedAmountPaid; // Use total repayment for balance
+                const remainingBalanceElement = document.getElementById('remainingBalanceValue');
+
+                if (remainingBalanceElement) {
+                    remainingBalanceElement.textContent = `$${remainingBalance.toFixed(2)}`; // Update UI
+                } else {
+                    console.error("Element with ID 'remainingBalanceValue' not found.");
+                }
+
+                // Update Progress Bar
+                const progressPercentage = (updatedAmountPaid / currentLoan.totalRepayment) * 100; // Calculate progress percentage
+                const progressBar = document.querySelector('.progress-bar');
+                const progressLabel = document.getElementById('progressLabel');
+
+                if (progressBar) {
+                    progressBar.style.width = `${progressPercentage}%`;
+                } else {
+                    console.error("Progress bar element not found.");
+                }
+
+                if (progressLabel) {
+                    progressLabel.textContent = `${progressPercentage.toFixed(0)}% Paid`;
+                } else {
+                    console.error("Progress label element not found.");
+                }
+            }
+
+            // Add event listener to the "Make a Payment" card
+            document.querySelector('.quick-action.card').addEventListener('click', function() {
+                $('#paymentModal').modal('show'); // Show the payment modal
+            });
+        });
+
+        // Function to calculate total amount to be repaid
+        function calculateTotalRepayment(principal) {
+            const totalRepayment = principal + (principal * interestRate);
+            return totalRepayment;
+        }
+
+        // Assuming you have a function that gets called when the loan is approved
+        function updateLoanStatus(isApproved) {
+            const loanStatusElement = document.getElementById('loanStatusValue');
+            if (isApproved) {
+                loanStatusElement.textContent = 'Approved'; // Change status to Approved
+            } else {
+                loanStatusElement.textContent = 'Pending'; // Keep it as Pending or set to another status
+            }
+        }
+
+        function approveLoan() {
+            const userPhone = localStorage.getItem('userPhone'); // Retrieve the user's phone number
+            const loansRef = ref(database, 'loans/' + userPhone); // Path to the user's loans
+
+            get(loansRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const loanData = snapshot.val();
+                    const loanApplications = Object.values(loanData); // Get all loan applications
+                    const currentLoan = loanApplications[0]; // Assuming you want to approve the first loan application
+                    const loanKey = Object.keys(loanData)[0]; // Get the loan key
+                    const loanRefToUpdate = ref(database, `loans/${userPhone}/${loanKey}`);
+
+                    // Update the loan status to "Approved"
+                    update(loanRefToUpdate, {
+                        status: 'Approved' // Change this to your actual field name
+                    }).then(() => {
+                        console.log('Loan status updated to Approved');
+                        updateLoanStatus(true); // Update the UI
+                    }).catch((error) => {
+                        console.error('Error updating loan status:', error);
+                    });
+                } else {
+                    console.log('No loan application found.');
+                }
+            }).catch((error) => {
+                console.error("Error retrieving loan application data: ", error);
+            });
+        }
+
+        // Function to retrieve loan status
+        function retrieveLoanStatus() {
+            const userPhone = localStorage.getItem('userPhone'); // Retrieve the user's phone number
+            const loansRef = ref(database, 'loans/' + userPhone); // Path to the user's loans
+
+            get(loansRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const loanData = snapshot.val();
+                    const loanApplications = Object.values(loanData); // Get all loan applications
+
+                    if (loanApplications.length > 0) {
+                        const currentLoan = loanApplications[0]; // Assuming you want to check the first loan application
+
+                        // Determine loan status based on processingFeePaid
+                        const loanStatus = currentLoan.processingFeePaid ? "Approved" : "Pending"; // Set status based on processing fee
+
+                        // Update the UI with the loan status
+                        const loanStatusElement = document.getElementById('loanStatusValue');
+                        if (loanStatusElement) {
+                            loanStatusElement.textContent = loanStatus; // Display the loan status
+                        } else {
+                            console.error("Element with ID 'loanStatusValue' not found.");
+                        }
+
+                        // You can also retrieve other loan details as needed
+                        const loanAmountElement = document.getElementById('loanAmountValue');
+                        if (loanAmountElement) {
+                            loanAmountElement.textContent = `$${parseFloat(currentLoan.loanAmount).toFixed(2)}`; // Display applied amount
+                        }
+
+                        // Continue to update other fields as necessary...
+                    } else {
+                        console.log('No loan applications found for this user.');
+                    }
+                } else {
+                    console.log('No loan data exists for this user.');
+                }
+            }).catch((error) => {
+                console.error("Error retrieving loan application data: ", error);
+            });
+        }
+
+        // Call the function when the document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            retrieveLoanStatus(); // Call the function to retrieve loan status
         });
     </script>
+
+    <!-- Profile Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profileModalLabel">Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Name:</strong> <span id="profileName"></span></p>
+                    <p><strong>Phone:</strong> <span id="profilePhone"></span></p>
+                    <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                    <p><strong>ID Number:</strong> <span id="profileIdNumber"></span></p>
+                    <p><strong>Date of Birth:</strong> <span id="profileDob"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Make a Payment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="paymentForm">
+                        <div class="form-group">
+                            <label for="paymentAmount">Payment Amount</label>
+                            <input type="number" class="form-control" id="paymentAmount" placeholder="Enter amount" required>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-block">Submit Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

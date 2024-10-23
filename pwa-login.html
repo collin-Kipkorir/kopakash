@@ -110,81 +110,8 @@
         .form-control:not(:last-child) {
             border-left: none;
         }
-
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .card-body {
-                padding: 30px;
-            }
-            h2 { font-size: 1.5rem; }
-            .form-control, .btn-primary {
-                font-size: 0.9rem;
-                padding: 0.6rem 0.8rem;
-            }
-            .logo {
-                max-width: 100px;
-                margin-bottom: 1.5rem;
-                margin-top: 1.5rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .card-body {
-                padding: 20px;
-            }
-            h2 { font-size: 1.3rem; }
-            .form-control, .btn-primary {
-                font-size: 0.85rem;
-                padding: 0.5rem 0.7rem;
-            }
-            .logo {
-                max-width: 80px;
-                margin-bottom: 1rem;
-                margin-top: 1rem;
-            }
-            .loader {
-                width: 40px;
-                height: 40px;
-                border-width: 4px;
-            }
-            .loader-inner {
-                border-width: 4px;
-            }
-        }
-
-        @media (max-width: 320px) {
-            .container {
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-            .card-body {
-                padding: 15px;
-            }
-            h2 { font-size: 1.2rem; }
-            .form-control, .btn-primary {
-                font-size: 0.8rem;
-                padding: 0.4rem 0.6rem;
-            }
-            .logo {
-                max-width: 60px;
-            }
-        }
-
-        /* Improve touch targets for mobile */
-        @media (max-width: 768px) {
-            .form-control, .form-select, .btn {
-                min-height: 35px;
-            }
-        }
-
-        /* Improve readability on small screens */
-        @media (max-width: 576px) {
-            body {
-                font-size: 0.85rem;
-            }
-            .form-label {
-                font-size: 0.8rem;
-            }
+        .text-danger {
+            display: none; /* Initially hidden */
         }
     </style>
 </head>
@@ -222,6 +149,7 @@
                                     <input type="checkbox" class="form-check-input" id="rememberMe">
                                     <label class="form-check-label" for="rememberMe">Remember me</label>
                                 </div>
+                                <div class="text-danger" id="error-message"></div> <!-- Error message div -->
                                 <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
                                 <div class="text-center">
                                     <a href="#" class="text-muted">Forgot password?</a>
@@ -238,8 +166,26 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="pwa-app.js"></script>
-    <script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWStEsRLNBSpkThgXeLmk_1EkPduKyhW8",
+            authDomain: "kopakash-307ab.firebaseapp.com",
+            projectId: "kopakash-307ab",
+            storageBucket: "kopakash-307ab.appspot.com",
+            messagingSenderId: "646396248316",
+            appId: "1:646396248316:web:f779c34a3231ff08bfd779",
+            measurementId: "G-0XYJCMQF05"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loadingScreen');
             const loginContent = document.getElementById('loginContent');
@@ -249,6 +195,46 @@
                 loadingScreen.style.display = 'none';
                 loginContent.classList.add('visible');
             }, 2000); // Adjust timing as needed
+
+            // Login form submission
+            document.getElementById('pwaLoginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const phone = document.getElementById('pwaLoginPhone').value;
+                const password = document.getElementById('pwaLoginPassword').value;
+                const errorMessageDiv = document.getElementById('error-message');
+
+                // Clear previous error messages
+                errorMessageDiv.style.display = 'none';
+                errorMessageDiv.textContent = '';
+
+                // Retrieve user data from Firebase Realtime Database
+                const dbRef = ref(database);
+                get(child(dbRef, 'users/' + phone)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+                        // Check if the password matches
+                        if (userData.password === password) {
+                            // Store user data in local storage
+                            localStorage.setItem('user', JSON.stringify(userData));
+                            // Redirect to the dashboard or another page
+                            window.location.href = 'pwa-home.html'; // Change to your desired page
+                        } else {
+                            // Incorrect password
+                            errorMessageDiv.textContent = 'Incorrect password. Please try again.';
+                            errorMessageDiv.style.display = 'block';
+                        }
+                    } else {
+                        // No user found
+                        errorMessageDiv.textContent = 'No user found with this phone number.';
+                        errorMessageDiv.style.display = 'block';
+                    }
+                }).catch((error) => {
+                    console.error('Error retrieving user data:', error);
+                    errorMessageDiv.textContent = 'An error occurred. Please try again.';
+                    errorMessageDiv.style.display = 'block';
+                });
+            });
         });
     </script>
 </body>

@@ -1,7 +1,6 @@
 const CACHE_NAME = 'kopa-kash-v1';
 const urlsToCache = [
   './',
-  './index.html',
   './pwa-login.html',
   './pwa-home.html',
   './loan-application.html',
@@ -43,7 +42,7 @@ self.addEventListener('fetch', (event) => {
       })
       .catch(() => {
         // If both cache and network fail, serve a fallback HTML
-        return caches.match('./index.html');
+        return caches.match('./pwa-login.html');
       })
   );
 });

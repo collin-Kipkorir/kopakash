@@ -70,9 +70,6 @@
         .form-control:not(:last-child) {
             border-left: none;
         }
-        .progress {
-            height: 5px;
-        }
         #loadingScreen {
             position: fixed;
             top: 0;
@@ -126,6 +123,7 @@
             z-index: 1000;
             background-color: rgba(255, 255, 255, 0.8);
             padding: 10px;
+            visibility: hidden;
             border-radius: 50%;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
@@ -135,104 +133,26 @@
             background-color: #ffffff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
-
-        /* Enhanced responsive styles */
-        @media (max-width: 992px) {
-            .container {
-                max-width: 95%;
-            }
-            .card-body {
-                padding: 30px;
-            }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            opacity: 0;
+            transform: translateY(100%);
         }
-
-        @media (max-width: 768px) {
-            .container {
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-            .card-body {
-                padding: 20px;
-            }
-            h2 { font-size: 1.6rem; }
-            .form-control, .btn-primary {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.9rem;
-            }
-            .back-button {
-                top: 10px;
-                left: 10px;
-                font-size: 1.2rem;
-                padding: 8px;
-            }
-            .logo {
-                max-width: 100px;
-                margin-bottom: 1.5rem;
-                margin-top: 1.5rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .card-body {
-                padding: 15px;
-            }
-            h2 { font-size: 1.4rem; }
-            .form-control, .btn-primary {
-                padding: 0.5rem 0.7rem;
-                font-size: 0.85rem;
-            }
-            .back-button {
-                top: 8px;
-                left: 8px;
-                font-size: 1rem;
-                padding: 6px;
-            }
-            .logo {
-                max-width: 80px;
-                margin-bottom: 1rem;
-                margin-top: 1rem;
-            }
-            .loader {
-                width: 40px;
-                height: 40px;
-                border-width: 4px;
-            }
-            .loader-inner {
-                border-width: 4px;
-            }
-        }
-
-        @media (max-width: 320px) {
-            .card-body {
-                padding: 10px;
-            }
-            h2 { font-size: 1.2rem; }
-            .form-control, .btn-primary {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.8rem;
-            }
-            .logo {
-                max-width: 60px;
-            }
-        }
-
-        /* Improve touch targets for mobile */
-        @media (max-width: 768px) {
-            .form-control, .form-select, .btn {
-                min-height: 35px;
-            }
-        }
-
-        /* Improve readability on small screens */
-        @media (max-width: 576px) {
-            body {
-                font-size: 0.85rem;
-            }
-            .form-label {
-                font-size: 0.8rem;
-            }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
+ 
 </head>
 <body>
     <div id="loadingScreen">
@@ -283,18 +203,13 @@
                                 <div class="mb-3">
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                                        <input type="date" class="form-control" id="pwaRegDob" required>
+                                        <input type="date" class="form-control" id="pwaRegDob" placeholder="D.O.B" required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                         <input type="password" class="form-control" id="pwaRegPassword" placeholder="Password" required>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="progress">
-                                        <div id="passwordStrength" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                                 <div class="mb-3 form-check">
@@ -313,9 +228,33 @@
         </div>
     </div>
 
+    <div id="toast" class="toast" style="display: none;">
+        <div class="toast-content">
+            <span id="toastMessage"></span>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="pwa-app.js"></script>
-    <script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWStEsRLNBSpkThgXeLmk_1EkPduKyhW8",
+            authDomain: "kopakash-307ab.firebaseapp.com",
+            projectId: "kopakash-307ab",
+            storageBucket: "kopakash-307ab.appspot.com",
+            messagingSenderId: "646396248316",
+            appId: "1:646396248316:web:f779c34a3231ff08bfd779",
+            measurementId: "G-0XYJCMQF05"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loadingScreen');
             const registrationContent = document.getElementById('registrationContent');
@@ -326,33 +265,64 @@
                 registrationContent.classList.add('visible');
             }, 2000); // Adjust timing as needed
 
-            // Password strength meter
-            document.getElementById('pwaRegPassword').addEventListener('input', function() {
-                const password = this.value;
-                const strength = calculatePasswordStrength(password);
-                const progressBar = document.getElementById('passwordStrength');
-                progressBar.style.width = strength + '%';
-                progressBar.setAttribute('aria-valuenow', strength);
-                if (strength < 33) {
-                    progressBar.className = 'progress-bar bg-danger';
-                } else if (strength < 66) {
-                    progressBar.className = 'progress-bar bg-warning';
-                } else {
-                    progressBar.className = 'progress-bar bg-success';
-                }
-            });
+            // Registration form submission
+            document.getElementById('pwaRegistrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
 
-            function calculatePasswordStrength(password) {
-                // Implement your password strength logic here
-                // This is a simple example and should be more comprehensive in a real application
-                let strength = 0;
-                if (password.length > 6) strength += 25;
-                if (password.match(/[a-z]+/)) strength += 25;
-                if (password.match(/[A-Z]+/)) strength += 25;
-                if (password.match(/[0-9]+/)) strength += 25;
-                return strength;
-            }
+                const name = document.getElementById('pwaRegName').value;
+                const phone = document.getElementById('pwaRegPhone').value;
+                const email = document.getElementById('pwaRegEmail').value;
+                const idNumber = document.getElementById('pwaRegIdNumber').value;
+                const dob = document.getElementById('pwaRegDob').value;
+                const password = document.getElementById('pwaRegPassword').value;
+
+                // Check if user already exists
+                const userRef = ref(database, 'users/' + phone);
+                get(userRef).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        showToast('User already exists. Please use a different phone number.'); // Use toast instead of alert
+                    } else {
+                        // Save user data to Firebase Realtime Database
+                        set(userRef, {
+                            name: name,
+                            phone: phone,
+                            email: email,
+                            idNumber: idNumber,
+                            dob: dob,
+                            password: password // Note: Storing passwords in plain text is not secure.
+                        })
+                        .then(() => {
+                            showToast('Registration successful! Redirecting to login...'); // Show success message
+                            setTimeout(() => {
+                                window.location.href = 'pwa-login.html'; // Redirect to login page
+                            }, 2000); // Delay redirect to allow user to see the toast
+                        })
+                        .catch((error) => {
+                            console.error('Error saving user data:', error);
+                            showToast('Registration failed. Please try again.'); // Use toast instead of alert
+                        });
+                    }
+                }).catch((error) => {
+                    console.error('Error checking user data:', error);
+                    showToast('Error checking user data. Please try again.'); // Use toast instead of alert
+                });
+            });
         });
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message; // Set the message
+            toast.classList.add('show'); // Show the toast
+            toast.style.display = 'block'; // Make it visible
+
+            // Hide the toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.style.display = 'none'; // Hide it again
+            }, 3000);
+        }
     </script>
 </body>
 </html>
